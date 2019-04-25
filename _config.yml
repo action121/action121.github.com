@@ -32,7 +32,7 @@ nightMode: true
 # Comments 评论功能
 comments:
   disqus: true
-  disqus_url: 'https://https-action121-github-io.disqus.com/embed.js'
+  disqus_url: 'https://action121.disqus.com/embed.js'
 
 # MathJax 公式支持 by Ray-Eldath
 mathjax: true
