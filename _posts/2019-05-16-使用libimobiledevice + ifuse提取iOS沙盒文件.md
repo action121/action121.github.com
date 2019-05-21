@@ -1,19 +1,18 @@
 ---
 layout: post
-title: '使用libimobiledevice + ifuse提取iOS沙盒文件'
-subtitle: 'libimobiledevice'
+title: '通过USB访问iPhone手机文件'
+subtitle: '使用libimobiledevice + ifuse提取iOS沙盒文件'
 date: 2019-05-16
 categories: 技术 工具 USB连iPhone
 cover: ''
-tags: libimobiledevice 
+tags: libimobiledevice  USB连iPhone
 ---
 
-
-# 使用libimobiledevice + ifuse提取iOS沙盒文件
+本教程基于macOS Mojave 10.14.5，至本文编辑时间2019-05-21，指令可用。
 
 ## 简介
  
-本教程基于macOS Mojave 10.14.5，至本文编辑时间2019-05-21，指令可用。
+
 
 libimobiledevice：一个开源包，可以让Linux支持连接iPhone/iPod Touch等iOS设备。
 
