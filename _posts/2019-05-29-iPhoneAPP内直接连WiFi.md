@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'iPhone APP内直接连WiFi'
+title: '在iPhone APP内直接连WiFi'
 subtitle: ''
 date: 2019-05-29
 categories: WiFi
