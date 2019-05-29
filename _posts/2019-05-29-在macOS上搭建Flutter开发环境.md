@@ -8,17 +8,19 @@ cover: ''
 tags: Flutter
 ---
 
-# 在macOS上搭建Flutter开发环境
+[TOC]
 
 # 前言
 
 不同的电脑，不同的开发人员在搭建开发环境时都可能会遇到不同的问题。
+
 搜索引擎搜出的相关文档重复性较高，本文记录下Flutter环境搭建过程，供日后自己查阅方便。
+
 截止到本文编辑时间，以下步骤经实践可用。
 
 参考 [Flutter中文网](https://flutterchina.club/setup-macos/)
 
-#使用镜像
+# 使用镜像
 由于在国内访问Flutter有时可能会受到限制，Flutter官方为中国开发者搭建了临时镜像，大家可以将如下环境变量加入到用户环境变量中：
 
 
@@ -97,11 +99,11 @@ echo $PATH
 更多详细信息，请参阅[this StackExchange question](https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path).
 
 
-## 真机调试前置条件
+# 真机调试前置条件
 
-### 安装 Xcode
+## 安装 Xcode
 略
-### 安装 [homebrew](http://brew.sh/) （如果已经安装了brew,跳过此步骤）.
+## 安装 [homebrew](http://brew.sh/) （如果已经安装了brew,跳过此步骤）.
 打开终端并运行这些命令来安装用于将Flutter应用安装到iOS设备的工具
 
 ```css
@@ -113,7 +115,7 @@ pod setup
 ## Flutter开发IDE 
 下载并安装 [Visual Studio Code](https://code.visualstudio.com/)
 
-## 运行 flutter doctor
+# 运行 flutter doctor
 运行以下命令查看是否需要安装其它依赖项来完成安装：
 
 
@@ -135,3 +137,5 @@ flutter doctor
 一般的错误会是xcode或Android Studio版本太低、或者没有ANDROID_HOME环境变量等，请按照提示解决。
 
 第一次运行一个flutter命令（如flutter doctor）时，它会下载它自己的依赖项并自行编译。以后再运行就会快得多。
+
+[TOC]
