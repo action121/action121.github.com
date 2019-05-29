@@ -8,6 +8,8 @@ cover: ''
 tags: WIFI
 ---
 
+# iPhone APP内直接连WiFi
+
 iOS 11苹果的新增了Wi-Fi API 。
 
 用户可以在app内直接连接Wi-Fi ，无需再跳转到系统Wi-Fi界面，增强了用户体验。
