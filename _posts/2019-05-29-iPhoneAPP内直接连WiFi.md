@@ -8,7 +8,6 @@ cover: ''
 tags: WIFI
 ---
 
-# iPhone APP内直接连WiFi
 
 iOS 11苹果的新增了Wi-Fi API 。
 
