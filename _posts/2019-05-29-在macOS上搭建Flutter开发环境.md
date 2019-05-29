@@ -8,8 +8,6 @@ cover: ''
 tags: Flutter
 ---
 
-[TOC]
-
 # 前言
 
 不同的电脑，不同的开发人员在搭建开发环境时都可能会遇到不同的问题。
@@ -137,5 +135,3 @@ flutter doctor
 一般的错误会是xcode或Android Studio版本太低、或者没有ANDROID_HOME环境变量等，请按照提示解决。
 
 第一次运行一个flutter命令（如flutter doctor）时，它会下载它自己的依赖项并自行编译。以后再运行就会快得多。
-
-[TOC]
