@@ -356,11 +356,11 @@ https://github.com/appium/appium-desktop/issues/1104
 
 ![-w1080](../../../assets/img/15736268059952/15738228948451.jpg)
 
-![](../../../assets/img/15736268059952/15738225828682.png)
+![-w1080](../../../assets/img/15736268059952/15738225828682.png)
 
 ![-w1080](../../../assets/img/15736268059952/15738234771304.png)
 
-![](../../../assets/img/15736268059952/luckincoffe.gif)
+![-w1080](../../../assets/img/15736268059952/luckincoffe.gif)
 
 
 ## 非常卡！！！！
