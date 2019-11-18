@@ -20,6 +20,15 @@ macOS Catalina 10.15.1
 
 Xcode Version 11.2 (11B52)
 
+实验时间：
+2019-11-13
+
+此文档记录环境配置过程的辛酸。
+
+随着时间推移及环境变化，不代表此文档记录的步骤还能成功。
+
+坚持还是能成功的，我这最后一步和真机死活调试不起来，就在准备放弃的时候，竟然成功了！！！！！
+
 ## 安装node
 
 本机版本 v12.9.0
@@ -310,7 +319,7 @@ WebDriverAgent工程的路径在这里：
 拉起了手机里的APP，却卡死在这里
 
 解决：
-https://github.com/appium/appium/issues/9645
+[https://github.com/appium/appium/issues/9645](https://github.com/appium/appium/issues/9645)
 ![-w881](../../../assets/img/15736268059952/15738224553674.jpg)
 
 
