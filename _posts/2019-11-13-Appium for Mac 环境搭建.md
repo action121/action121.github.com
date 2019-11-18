@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Appium for Mac 环境搭建'
-subtitle: ''
+subtitle: 'Appium for Mac 环境搭建'
 date: 2019-11-13
 categories: iOS自动化测试
 cover: ''
@@ -10,10 +10,14 @@ tags: 自动化测试
 
 # Appium for Mac 环境搭建
 
-实验环境 
+实验环境 :
+
 MacBook Pro (15-inch, 2019)
+
 iPhone 11  iOS 13.2
+
 macOS Catalina 10.15.1
+
 Xcode Version 11.2 (11B52)
 
 ## 安装node
@@ -61,7 +65,7 @@ sudo npm install -g ios-deploy --unsafe-perm=true  #如果是iOS10以上的系�
 
 
 解决办法:
-https://github.com/ios-control/ios-deploy/issues/346
+[https://github.com/ios-control/ios-deploy/issues/346](https://github.com/ios-control/ios-deploy/issues/346)
 
 ![-w820](../../../assets/img/15736268059952/15736299148780.jpg)
 
@@ -160,7 +164,7 @@ npm i -g opencv4nodejs
 ```
 ### 安装ffmpeg
 
-下载地址 https://ffmpeg.zeranoe.com/
+下载地址 [https://ffmpeg.zeranoe.com/](https://ffmpeg.zeranoe.com/)
 
 ![-w1397](../../../assets/img/15736268059952/15736412982190.jpg)
 
@@ -249,7 +253,7 @@ brew install bundletool
 
 ![-w1400](../../../assets/img/15736268059952/15736493628226.jpg)
 
-在浏览器内输入控制台打印的地址 http://192.168.38.249:8100/status
+在浏览器内输入控制台打印的地址 http://localhost:8100/status
 
 ![-w1210](../../../assets/img/15736268059952/15736494102005.jpg)
 
@@ -317,7 +321,7 @@ https://github.com/appium/appium/issues/9645
 [POST http://localhost:8100/session]
 ```
 
-https://github.com/appium/appium/issues/9482
+[https://github.com/appium/appium/issues/9482](https://github.com/appium/appium/issues/9482)
 参考这个，我这并没有生效，放弃这个方案，换了个1.14.0版本的appium解决。
 
 ### 问题3
