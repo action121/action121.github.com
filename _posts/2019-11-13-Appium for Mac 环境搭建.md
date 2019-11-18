@@ -14,7 +14,7 @@ tags: 自动化测试
 
 MacBook Pro (15-inch, 2019)
 
-iPhone 11  iOS 13.2
+iPhone 11  iOS 13.2 未越狱
 
 macOS Catalina 10.15.1
 
