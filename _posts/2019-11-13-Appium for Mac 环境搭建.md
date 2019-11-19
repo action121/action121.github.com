@@ -227,11 +227,14 @@ brew install bundletool
 
 
 1、到[WebDriverAgent](https://github.com/facebookarchive/WebDriverAgent)下载最新版本的WebDriverAgent
+
 2、进入下载后的WebDriverAgent文件夹
+
 执行 
 ```
 ./Scripts/bootstrap.sh
 ```
+
 3、直接用Xcode打开WebDriverAgent.xcodepro文件
 
 4、配置调试证书
@@ -301,6 +304,7 @@ https://github.com/appium/appium/issues/13017
 ![-w1080](../../../assets/img/15736268059952/15740452163374.png)
 
 上图配置项参考：
+
 [https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md](https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md)
 
 ### 编译问题
