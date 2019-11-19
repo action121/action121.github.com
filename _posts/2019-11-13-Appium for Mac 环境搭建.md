@@ -300,6 +300,8 @@ https://github.com/appium/appium/issues/13017
 
 ![-w1080](../../../assets/img/15736268059952/15740452163374.png)
 
+上图配置项参考：
+[https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md](https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/caps.md)
 
 ### 编译问题
 WebDriverAgent工程的路径在这里：
@@ -329,7 +331,7 @@ WebDriverAgent工程的路径在这里：
 ```
 
 [https://github.com/appium/appium/issues/9482](https://github.com/appium/appium/issues/9482)
-参考这个，我这并没有生效，放弃这个方案，换了个1.14.0版本的appium解决。
+参考这个，我这并没有生效，放弃这个方案，换了个1.15.0版本的appium解决。
 
 ### 问题3
 
@@ -341,7 +343,7 @@ Xcode11 with ios 13 don`t open inspector with appium-desktop.
 https://github.com/appium/appium-desktop/issues/1096
 
 我的解决办法：
-换了个1.14.0版本的appium解决
+换了个1.15.0版本的appium解决
 
 ### 问题4
 
@@ -351,7 +353,7 @@ Getting Original error: Unable to start WebDriverAgent session because of xcodeb
 https://github.com/appium/appium-desktop/issues/1104
 
 我的解决办法：
-换了个1.14.0版本的appium解决
+换了个1.15.0版本的appium解决
 
 ### 问题XXXX
 
