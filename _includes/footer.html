@@ -1,4 +1,5 @@
 <footer class="g-footer">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   <section>{{ site.nickname1 }} ©
   {% assign current = "now" | date: "%Y" | plus: 0%}
   {% unless site.footer.since and site.footer.since == current %}
@@ -7,5 +8,6 @@
   {% endunless %}
   {{ current }}
   </section>
-  <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section>
+  <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a>  |  <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+   </section>
 </footer>
