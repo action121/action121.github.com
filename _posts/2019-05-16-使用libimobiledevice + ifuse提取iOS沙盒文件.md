@@ -271,7 +271,7 @@ ifuse [挂载点]
 所谓的挂载点，就是电脑里创建好的某个目录，用它来做映射盘加载手机的数据
 ```css
 $ cd Documents 
-$ mkdir app2
+$ mkdir app
 $ ifuse app
 ```
 成功后，app目录变成了OSXFUSE Volume 0(ifuse)
@@ -282,7 +282,7 @@ $ ifuse app
 
 ### 卸载[挂载点]
 ```css
-umount /myapp
+umount /app
 ```
 ### 挂载某个应用的Documents目录
 ifuse --documents [要挂载的应用的bundleID] [挂载点]
