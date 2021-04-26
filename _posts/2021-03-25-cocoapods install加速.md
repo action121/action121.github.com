@@ -11,6 +11,7 @@ tags: cocoapods
 # 前言
 
 本文重点不在介绍cocoapods各种细枝末节。
+
 本文关注pod install 对branch依赖的加速。
 
 # 1、简单了解一下Podfile库依赖方式
@@ -28,6 +29,7 @@ pod 'AFNetworking', :path => '~/Documents/AFNetworking'
 ## 1.2、使用指定地址的 pod 库-branch
 
 有时可能需要使用最新版本或特别修改过的 Pod。
+
 这种情况下，可以指定 pod 库的地址。
 
 使用依赖库的 master 分支：
@@ -66,8 +68,11 @@ pod 'AFNetworking', :git => 'https://github.com/gowalla/AFNetworking.git', :comm
 ## 2、遇到的问题
 
 pod install，会基于git指令进行库的下载操作。
+
 第一次下载远程仓库时，默认clone了git的所有提交记录。
+
 如果一个库长期频繁操作，提交大文件等，会导致.git目录持续膨胀。
+
 不注意的情况下有些库整体clone大小可以膨胀到几个G。
 
 
@@ -84,6 +89,7 @@ pod install，会基于git指令进行库的下载操作。
 # 3、分析问题
 
 install慢，有个git clone环节比较关键。
+
 git 加速解决方法很简单，在git clone时加上--depth 1即可。
 
 ```
@@ -93,6 +99,7 @@ depth用于指定克隆深度，为1即表示只克隆最近一次commit
 对于以上列出的几种库依赖，cocoapods在git clone时，除了`branch`方式，其它方式都加了--depth 1。
 
 看来瓶颈在branch的支持。
+
 是不是在podfile里对branch的依赖方式加入参数即可控制？
 
 想当然的试了一下:
@@ -102,7 +109,9 @@ pod 'AFNetworking', :git => 'https://github.com/gowalla/AFNetworking.git', :bran
 ```
 
 草率了，不生效。
+
 并且破坏了pod的指令规则，pod install流程也被终止了。
+
 尝试找找cocoapods 提供的 hook规范，无解。
 
 似乎僵住了。
@@ -163,6 +172,7 @@ clone完成后，.git目录大小31.5MB
 ![-w1196](../../../assets/img/16165846052897/16166585577036.jpg)
 
 再看看效果。
+
 pod install时，控制台日志：
 
 
