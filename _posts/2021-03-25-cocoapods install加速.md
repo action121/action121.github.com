@@ -144,9 +144,9 @@ git.rb
 
 downloader下载代码时，对于branch模式的支持是这样的：
 
-
-
+```
 git clone git@code.amh-group.com:iOSYmm/YMMCommonUILib.git /var/folders/37/hc7qt7ys5w103q0jsqcrdgvm0000gn/T/d20210325-27574-1usb092 --template=
+```
 
 
 ![-w1130](../../../assets/img/16165846052897/16166583314487.jpg)
@@ -202,4 +202,6 @@ clone完成后，.git目录大小1.4MB
 
 虽然这个实验初见效果，实际生产也正常，但不能盲目相信它。
 
-可能我们在第三层，以为源码作者在第五层，其实他在第九层
+源码作者在这里的设计肯定有他的考虑。
+
+可能我们在第三层，以为源码作者在第五层，其实他在第九层。
