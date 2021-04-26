@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>批量共享GitLab 仓库权限</title>
+	<meta charset="utf-8">
+
+	<style>
+		table,
+		th,
+		td {
+			border: 1px solid black;
+		}
+
+		table {
+			width: 100%;
+		}
+
+		input {
+			font-size: 18px;
+		}
+
+		input[type="text"] {
+			width: 95%;
+		}
+
+		.action-button {
+			height: 44px;
+		}
+
+		.mask {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			z-index: 1000;
+			filter: alpha(opacity=0);
+			opacity: 0;
+			background: #ffffff
+		}
+
+		#logContainer {
+			margin-top: 30px;
+			max-height: 400px;
+			overflow-x: hidden;
+			overflow-y: auto;
+		}
+	</style>
+
+	<script type="text/javascript">
+
+
+		function share() {
+
+			var groupId = document.querySelector("#groupId").value;
+			var targetGroupId = document.querySelector("#target_groupId").value;
+			var token = document.querySelector("#token").value;
+			var domain = document.querySelector("#domain").value;
+
+			if (domain.trim().length == 0) {
+				log("需要填写域名");
+				document.querySelector("#domain").focus();
+				return;
+			}
+
+			if (groupId.trim().length == 0) {
+				log("需要填写待分享的groupid");
+				document.querySelector("#groupId").focus();
+				return;
+			}
+
+			if (targetGroupId.trim().length == 0) {
+				log("需要填写共享目标的groupid");
+				document.querySelector("#target_groupId").focus();
+				return;
+			}
+
+			if (token.trim().length == 0) {
+				log("需要填写token");
+				document.querySelector("#token").focus();
+				return;
+			}
+
+			if (!window.confirm("准备操作，确认填写的信息无误？")) {
+				return;
+			}
+
+			var accessLevelSelectedIndex = document.querySelector("#accessLevel").selectedIndex;
+			var accessLevel = document.querySelector("#accessLevel").options[accessLevelSelectedIndex].text;
+
+			setWindowEnable(false);
+
+			log("accessLevel: " + accessLevel);
+
+			var allDataList = [];
+
+			var nextAction = function (dataList, nextPageNumber, errorMessage) {
+				if (dataList.length > 0) {
+					allDataList = allDataList.concat(dataList);
+				}
+				if (nextPageNumber == -1) {
+					if (errorMessage) {
+						log(errorMessage);
+						log("任务结束");
+						setWindowEnable(true);
+					} else {
+						log("group " + groupId + " 数据拉取完毕，共" + allDataList.length + "个工程");
+						log("开始分享操作");
+						shareProjectsToGroup(allDataList, targetGroupId);
+					}
+				} else {
+					log("正在拉取group " + groupId + " 第" + nextPageNumber + "页数据");
+					getProjectsOfGroup(groupId, nextPageNumber, nextAction);
+				}
+			};
+
+			nextAction([], 1, null);
+		}
+
+
+		function getProjectsOfGroup(groupId, currentPageNumber, callBack) {
+			var xhr = new XMLHttpRequest();
+			var token = document.querySelector("#token").value;
+			var domain = document.querySelector("#domain").value;
+			var url = domain + "/api/v4/groups/" + groupId + "/projects?per_page=100&page=" + currentPageNumber;
+			xhr.open("GET", url, true);
+			xhr.setRequestHeader("PRIVATE-TOKEN", token);
+			xhr.onreadystatechange = function () {
+
+				if (xhr.readyState == 4) {
+					if (xhr.status >= 200 && xhr.status < 300) {
+						var dataList = JSON.parse(xhr.responseText);
+						var nextPage = xhr.getResponseHeader("X-Next-Page");
+						if (typeof nextPage === 'string' && nextPage.length > 0) {
+							callBack(dataList, parseInt(nextPage), null);
+						} else {
+							callBack(dataList, -1, null);
+						}
+
+					} else {
+						var res = JSON.parse(xhr.responseText);
+						callBack([], -1, "group id: " + groupId + " 第 " + currentPageNumber + " 页数据拉取失败 code : " + xhr.status + " message：" + res.message);
+					}
+
+				}
+
+			}
+			xhr.send(null);
+
+		}
+
+		function shareProjectsToGroup(projects, targetGroupId) {
+
+			if (projects.length == 0) {
+				log("没有工程可共享");
+				setWindowEnable(true);
+				return;
+			}
+
+			var currentIndex = -1;
+
+			var nextAction = function (result, message) {
+
+				if (message) {
+					log(message);
+				}
+
+				currentIndex++;
+				if (currentIndex >= projects.length) {
+					log("done");
+					setWindowEnable(true);
+					return;
+				}
+
+				log("准备操作第" + (currentIndex + 1) + "个");
+
+				var projectObj = projects[currentIndex];
+				var projectId = projectObj.id;
+				var shared_with_groups = projectObj.shared_with_groups;
+
+				var shared = false;
+				for (var i = 0; i < shared_with_groups.length; i++) {
+					var groupObj = shared_with_groups[i];
+					if (groupObj.group_id == targetGroupId) {
+						//已共享到目标group
+						shared = true;
+						log("project id:" + projectObj.id + " name: " + projectObj.name + "已共享到目标group");
+						break;
+					}
+
+				}
+				if (!shared) {
+					tryShareProjectToGroup(projectObj, targetGroupId, nextAction);
+				} else {
+					nextAction(true, null);
+				}
+
+			};
+
+			nextAction(true, null);
+		}
+
+		function tryShareProjectToGroup(projectObj, targetGroupId, callBack) {
+			var xhr = new XMLHttpRequest();
+			var token = document.querySelector("#token").value;
+			var domain = document.querySelector("#domain").value;
+			var url = domain + "/api/v4/projects/" + projectObj.id + "/share";
+			xhr.open("POST", url, true);
+			xhr.setRequestHeader("PRIVATE-TOKEN", token);
+			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4) {
+					if (xhr.status >= 200 && xhr.status < 300) {
+						callBack(true, "project id: " + projectObj.id + " name: " + projectObj.name + " 共享成功");
+					} else if (xhr.status == 409) {
+						var res = JSON.parse(xhr.responseText);
+						callBack(false, "project id: " + projectObj.id + " name: " + projectObj.name + " 已有权限");
+					} else {
+						var res = JSON.parse(xhr.responseText);
+						callBack(false, "project id: " + projectObj.id + " name: " + projectObj.name + " 共享失败 code : " + xhr.status + " message：" + res.message);
+					}
+
+				}
+			}
+			var accessLevelSelectedIndex = document.querySelector("#accessLevel").selectedIndex;
+			var accessLevel = document.querySelector("#accessLevel").options[accessLevelSelectedIndex].value;
+			xhr.send("group_id=" + targetGroupId + "&group_access=" + accessLevel);
+
+		}
+
+		function log(content) {
+			var logContainer = document.querySelector("#logContainer");
+			logContainer.innerHTML = logContainer.innerHTML + "<br/>" + content;
+			logContainer.scrollTop = logContainer.scrollHeight;
+		}
+
+		function clearLog() {
+			var logContainer = document.querySelector("#logContainer");
+			logContainer.innerHTML = "";
+		}
+
+		function setWindowEnable(enable) {
+			document.querySelector("#mask").hidden = enable;
+			document.querySelector("#share").disabled = !enable;
+			document.querySelector("#clearLog").disabled = !enable;
+		}
+
+
+		window.onbeforeunload = function (e) {
+			return "确认关闭页面吗？"
+		};
+
+	</script>
+</head>
+
+<body onload="setWindowEnable(true);">
+
+	<div class="mask" id="mask"></div>
+
+	<h1>批量共享GitLab 仓库权限</h1>
+
+	<h2>配置项</h1>
+
+		<table>
+			<tr>
+				<td>GitLab 域名</td>
+				<td colspan="3">
+					<input type="text" name="domain" value="https://code.amh-group.com" id="domain"
+						placeholder="GitLab 域名，比如https://code.amh-group.com" style="width: 99%;">
+				</td>
+				<td>
+					测试环境: http://codebak.amh-group.com （账号密码同生产环境）
+					<br />
+					生产环境: https://code.amh-group.com
+				</td>
+			</tr>
+			<tr>
+				<td>把 GroupId</td>
+				<td>
+					<input type="text" name="groupId" value="" id="groupId" placeholder="这里填写待分享的group的id">
+				</td>
+				<td>
+					下面的projects共享到：
+				</td>
+				<td>
+					<input type="text" name="groupId" value="" id="target_groupId" placeholder="这里填写共享目标group的id">
+
+				</td>
+				<td>
+					帮助：
+					登录gitlab，找到待操作的group，在overview->details里查看group id
+				</td>
+			</tr>
+			<tr>
+				<td>token</td>
+				<td>
+					<input type="text" name="token" value="" id="token" placeholder="这里填写access_token">
+				</td>
+				<td colspan="3">
+					<a href="https://code.amh-group.com/profile/personal_access_tokens" target="blank">戳我找token</a>
+				</td>
+			</tr>
+			<tr>
+				<td>分配权限</td>
+				<td colspan="4">
+					<select id="accessLevel">
+						<option value="10">Guest</option>
+						<option value="20">Reporter</option>
+						<option value="30" selected="selected">Developer</option>
+						<option value="40">Maintainer</option>
+						<option value="50">Owner</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+
+		<h2>操作</h1>
+
+			<input type="button" id="share" onclick="share();" value="批量共享工程" class="action-button">
+			<input type="button" id="clearLog" onclick="clearLog();" value="清除日志" class="action-button">
+
+		<h2>日志</h1>
+
+			<div id="logContainer">
+			</div>
+
+</body>
+
+</html>
