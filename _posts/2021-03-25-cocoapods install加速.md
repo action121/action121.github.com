@@ -3,7 +3,7 @@ layout: post
 title: 'cocoapods install加速'
 subtitle: ''
 date: 2021-03-25
-categories: 工具
+categories: 工程效率
 cover: ''
 tags: cocoapods 
 ---
