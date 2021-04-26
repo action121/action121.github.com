@@ -1,0 +1,69 @@
+---
+layout: post
+title: 'iOS hotfix 工具'
+subtitle: ''
+date: 2020-12-03
+categories: 工程效率
+cover: ''
+tags:hotfix,工程效率
+---
+
+# OC2PatchTool
+
+这是macOS系统上的可视化辅助工具，将OC语言转成mangofix脚本。
+
+做iOS热修复时，大量时间浪费在OC代码翻译成脚本上，提供这个辅助工具，希望能给iOSer提供便利。
+
+# 支持的功能
+
+1、OC代码 一键 批量转换成脚本
+
+支持复制.m内容粘贴，转换
+
+支持单个OC API转换，自动补全
+
+报错提示:根据行号定位到OC代码行
+
+2、将脚本导出Reease包
+
+导出iOS APP可正常解析的包
+
+3、解密Release包
+
+可用于下载线上已发布的包，查看内容；
+
+发版前check
+
+4、提供帮助菜单
+
+路径：菜单->帮助
+
+![](../../../assets/img/16194079113513/16194079249747.jpg)
+
+
+![](media/../../../assets/img/16194079425864.jpg)
+
+
+# 不支持
+
+预编译相关
+
+编译器内置函数以及属性__attribute__等
+
+a[x], {x,y,z}, a->x
+
+id a = ( identifier )object; 类型转换. 但支持id a = (identifier *)object;
+
+
+# 热修引擎
+
+[地址](https://github.com/YPLiang19/Mango)
+
+# 感谢
+
+[地址](https://github.com/SilverFruity/oc2mango)
+
+# 本工具源码
+
+我的仓库：
+[地址](https://github.com/action121/OC2PatchTool)
