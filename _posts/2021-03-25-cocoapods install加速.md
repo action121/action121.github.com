@@ -171,6 +171,30 @@ clone完成后，.git目录大小31.5MB
 
 ![-w1196](../../../assets/img/16165846052897/16166585577036.jpg)
 
+```
+      def clone_arguments(force_head, shallow_clone)
+        command = ['clone', url, target_path]
+
+        if branch = options[:branch]
+          command += ['--branch', branch,'--depth',1]
+        else
+           command += ['--template=']
+           if shallow_clone && !options[:commit]
+             command += %w(--single-branch --depth 1)
+           end
+
+          unless force_head
+            if tag_or_branch = options[:tag] || options[:branch]
+              command += ['--branch', tag_or_branch]
+            end
+          end
+
+        end
+        command
+      end
+```
+
+
 再看看效果。
 
 pod install时，控制台日志：
