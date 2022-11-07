@@ -67,7 +67,7 @@ def initialize(name, params, podfile_path, can_cache = true)
         @podfile_path = podfile_path
         @can_cache = can_cache
         if !@params[:git].nil?
-          git_value = @params[:git].gsub('https://gitlab.btpoc.com/', 'git@gitlab.btpoc.com:')
+          git_value = @params[:git].gsub('https://gitlab.XXXXXX.com/', 'git@gitlab.XXXXXXXX.com:')
           @params[:git] = git_value
         end
 end
@@ -84,7 +84,7 @@ pod update --verbose --no-repo-update
 
 ## 可能存在的问题&解决方案
 
-![](media/16677958599881/16677971080119.jpg)
+![](../../../assets/img/16677958599881/16677971080119.jpg)
 
 通过ssh连上服务器后，一段时间不操作，就会自动中断，并报出以下信息：
 
