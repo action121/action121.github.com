@@ -11,6 +11,8 @@ tags: cocoapods
 
 # 批量修改pod spec中的git URL
 
+## 目标
+
 将cocoapods spec中 https git URL修改成SSH git URL。
 
 例如：
