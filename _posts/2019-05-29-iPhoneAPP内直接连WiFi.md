@@ -8,8 +8,9 @@ cover: ''
 tags: WIFI
 ---
 
+# 前言
 
-iOS 11苹果的新增了Wi-Fi API 。
+iOS 11 SDK新增了Wi-Fi API 。
 
 用户可以在app内直接连接Wi-Fi ，无需再跳转到系统Wi-Fi界面，增强了用户体验。
 
@@ -17,16 +18,17 @@ iOS上想要开发Wi-Fi应用，就必须申请NetworkExtension权限。
 
 申请过的都知道，是很难一次成功的，根据苹果爸爸的拒绝回复，多申请几次就可以了。
 
-这篇文章主要介绍iOS11 Wi-Fi内连接。11一下请参考 [这篇文章](https://www.jianshu.com/p/00f6f4bb7a75)
+这篇文章主要介绍iOS11+ APP内Wi-Fi连接。iOS 11以下请参考 [这篇文章](https://www.jianshu.com/p/00f6f4bb7a75)
 
+# 开发过程
 
-# 修改工程配置
+## 修改工程配置
 
 ![-w1052](../../../assets/img/15591100210392/15591102472885.jpg)
 
 
 
-# 代码
+## 代码
 ```css
     if (@available(iOS 11.0, *)) {
         NEHotspotConfiguration *configuration = [[NEHotspotConfiguration alloc] initWithSSID:@"wuxiaomingdeiMac" passphrase:@"xiaoming"isWEP:NO];
@@ -54,7 +56,7 @@ iOS上想要开发Wi-Fi应用，就必须申请NetworkExtension权限。
 
 在回调里可进行成功或失败的处理。
 
-# 运行结果
+## 运行结果
 
 ![](../../../assets/img/15591100210392/15591103088839.jpg)
 
