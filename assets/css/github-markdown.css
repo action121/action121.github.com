@@ -160,6 +160,7 @@
 .markdown-body a:active,
 .markdown-body a:hover {
   outline-width: 0;
+  color: #e32e00;
 }
 
 .markdown-body strong {
@@ -636,4 +637,61 @@ li p:nth-child(2) {
 
 .markdown-body hr {
   border-bottom-color: #eee;
+}
+
+/*TOC相关*/
+
+.post-content .container {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.post-content .container .contents {
+    width: 780px;
+    padding: 30px;
+}
+.post-content .container .table-of-contents {
+    top: 60px;
+    margin-left: 20px;
+    padding: 20px;
+    width: 280px;
+    height: fit-content;
+    max-height: 450px;
+    position: -webkit-sticky;
+    position: sticky;
+    overflow: scroll;
+    border-left: 2px solid #efefef;
+}
+.container .table-of-contents  h2 {
+    font-family: fantasy;
+    color: #e32e00;
+}
+.container .table-of-contents  ul {
+    margin-left: 20px;
+    list-style-type: revert;
+    font-size: 14px;
+    line-height: 24px;
+    color: #005b81;
+}
+.container .table-of-contents a {
+    color: #005b81;
+}
+.container .table-of-contents a:hover {
+    color: #e32e00;
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 1050px) {
+      .post-content .container {
+          width: 100%;
+      }
+      .post-content .container .contents {
+          width: 100%;
+          float: none;
+          margin: 0 auto;
+      }
+      .post-content .container .table-of-contents {
+          display: none;
+      }
 }

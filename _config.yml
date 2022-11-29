@@ -24,6 +24,9 @@ bio: '移动端开发者 passion_wxm@163.com'
 email: 'passion_wxm@163.com'
 avatar: '/assets/img/profile.jpg'
 
+# MARKDOWN TOC索引
+toc: true
+
 # Search
 search: true
 

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 {% include post-head.html %}
-
 <body>
   <!--[if lt IE 10]>
 <div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
@@ -37,13 +36,26 @@
   </header>
 
   <div class="post-content visible">
-    {% if page.subtitle %}
+    {% if page.subtitle and post.subtitle.size > 0 %}
     <h2 class="post-subtitle">{{ page.subtitle }}</h2>
     {% endif %}
 
-    <article class="markdown-body">
-      {{ page.content }}
-    </article>
+    {% if site.toc %}
+      <div class="container">  
+        <div class="contents">
+          <article class="markdown-body">
+            {{ page.content }}
+          </article>
+        </div>   
+        <div class="table-of-contents">
+          {% include toc.html html=content %}
+        </div>
+      </div>
+    {% else %}
+      <article class="markdown-body">
+        {{ page.content }}
+      </article>
+    {% endif %}
 
     {% if site.social-share %}
     <div class="social-share-wrapper">
