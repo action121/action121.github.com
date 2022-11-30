@@ -5,8 +5,8 @@
   <!--[if lt IE 10]>
 <div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
 <![endif]-->
-  <input id="nm-switch" type="hidden" value="{{ site.nightMode }}"> {% include header.html %}
-
+  <input id="nm-switch" type="hidden" value="{{ site.nightMode }}"> 
+  {% include header.html %}
   <header
     class="g-banner post-header {{ site.postPatterns | prepend: 'post-pattern-' }} {{ site.theme-color | prepend: 'bgcolor-' }} {% unless page.cover %}post-no-cover{% endunless %}"
     data-theme="{{ site.theme-color }}"
@@ -23,7 +23,7 @@
       <div class="post-meta">
         <span class="post-meta-item"><i class="iconfont icon-author"></i>{% if page.author %}{{ page.author }}{% else %}{{ site.nickname }}{% endif %}</span>
         <time class="post-meta-item" datetime="{{ page.date | date: "%Y-%m-%d" }}"><i class="iconfont icon-date"></i>{{ page.date | date: "%Y-%m-%d" }}</time>
-        <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <!--         <span id="busuanzi_container_page_pv">Views:
           <span id="busuanzi_value_page_pv"></span>次
         </span> -->
@@ -123,20 +123,25 @@
 
   {% include footer.html %}
 
-  <script src="/assets/js/social-share.min.js"></script>
-  <script>
-    socialShare('.social-share', {
-      sites: [
-        {% for i in site.social-share-items %}
-          '{{ i }}'
-          {% if forloop.last == false %},
-          {% endif %}
-        {% endfor %}
-      ],
-      wechatQrcodeTitle: "分享到微信朋友圈",
-      wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
-    });
-  </script>
+  {% if site.social-share %}
+    
+    <script src="/assets/js/social-share.min.js"></script>
+    <script>
+      socialShare('.social-share', {
+        sites: [
+          {% for i in site.social-share-items %}
+            '{{ i }}'
+            {% if forloop.last == false %},
+            {% endif %}
+          {% endfor %}
+        ],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+      });
+    </script>
+
+  {% endif %}
+
 
   {% if site.comments.disqus %}
   <script>
