@@ -681,7 +681,9 @@ li p:nth-child(2) {
     color: #e32e00;
     text-decoration: underline;
 }
-
+.container .table-of-contents .active {
+  color:#e32e00
+}
 @media screen and (max-width: 1050px) {
       .post-content .container {
           width: 100%;
