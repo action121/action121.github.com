@@ -657,7 +657,7 @@ li p:nth-child(2) {
     padding: 20px;
     width: 280px;
     height: fit-content;
-    max-height: 1000px;
+    max-height: 400px;
     position: -webkit-sticky;
     position: sticky;
     overflow: scroll;
