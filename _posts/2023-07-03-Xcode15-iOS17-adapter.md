@@ -85,7 +85,7 @@ public typealias ImageResource = Kingfisher.ImageResource
 
 ## 2. Xcode编译策略调整
  
- ### 2.1 return 后面的代码编译策略调整
+### 2.1 return 后面的代码编译策略调整
  
  xcode 15，return 后面的代码会作为return的参数处理。
  
@@ -95,7 +95,7 @@ public typealias ImageResource = Kingfisher.ImageResource
  
  需要处理return后面跟有代码的场景。
  
- #### 2.1.1 现象
+#### 2.1.1 现象
  
  ![](../../../assets/img/16883502071308/16883709020032.jpg)
 
@@ -109,7 +109,7 @@ public typealias ImageResource = Kingfisher.ImageResource
  方案3. return 放在一个显式作用域内 。如 花括号、预编译宏等
 
  
- #### 2.1.3 拓展demo
+#### 2.1.3 拓展demo
  
 ![](../../../assets/img/16883502071308/16883515618209.jpg)
 
@@ -118,7 +118,6 @@ public typealias ImageResource = Kingfisher.ImageResource
 ![](../../../assets/img/16883502071308/16883610834625.jpg)
 
 ![](../../../assets/img/16883502071308/16883515998179.jpg)
-
 
 ## 3. 编译link问题
 
@@ -129,7 +128,7 @@ clang: error: unable to execute command: Segmentation fault: 11
 clang: error: linker command failed due to signal (use -v to see invocation)
 ```
 
-![](media/16883502071308/16883523569100.jpg)
+![](../../../assets/img/16883502071308/16883523569100.jpg)
 
 ### 3.2 解决方案
 
