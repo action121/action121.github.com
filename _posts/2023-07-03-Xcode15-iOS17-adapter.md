@@ -105,9 +105,12 @@ public typealias ImageResource = Kingfisher.ImageResource
  问题核心是基于作用域的概念，return作用域内后面没有代码就行，几种适配方案：
 
  方案1. 删除return后面的代码
+
  方案2. return后面加分号
+
  方案3. return 放在一个显式作用域内 。如 花括号、预编译宏等
 
+ 
  
 #### 2.1.3 拓展demo
  
