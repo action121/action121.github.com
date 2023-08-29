@@ -171,7 +171,8 @@
     // 给图片添加链接
     $(document).ready(function() {
         $("p img").each(function() {
-          this.setAttribute("data-fancybox", "gallery");
+          let aElement = '<a href="' + this.src + '" data-fancybox="gallery"></a>';
+          $(this).wrapAll(aElement);
         });
     });
     Fancybox.bind('[data-fancybox="gallery"]', {
