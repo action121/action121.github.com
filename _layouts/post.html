@@ -165,6 +165,30 @@
 
   <script src="/assets/js/prism.js"></script>
   <script src="/assets/js/index.min.js"></script>
+  <script src="/assets/js/fancybox.umd.js"></script>
+  <link rel="stylesheet" href="/assets/css/fancybox.css"/>
+  <script>
+    // 给图片添加链接
+    $(document).ready(function() {
+        $("p img").each(function() {
+          this.setAttribute("data-fancybox", "gallery");
+        });
+    });
+    Fancybox.bind('[data-fancybox="gallery"]', {
+       // groupAttr: false,
+      keyboard: {
+          Escape: "close",
+          Delete: "close",
+          Backspace: "close",
+          PageUp: "next",
+          PageDown: "prev",
+          ArrowUp: "prev",
+          ArrowDown: "next",
+          ArrowRight: "next",
+          ArrowLeft: "prev",
+      },
+    }); 
+  </script>
 </body>
 
 </html>
