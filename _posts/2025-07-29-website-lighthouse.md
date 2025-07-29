@@ -286,7 +286,7 @@ tags: website Lighthouse speed-up
 
 
 
-## 总结
+# 总结
 
 1. **彻底解决Footer CLS问题**：Footer现在是页面内容的一部分，不会因为Main内容变化而偏移
 2. **更灵活的页面布局**：每个页面可以有自己的Footer样式和内容
