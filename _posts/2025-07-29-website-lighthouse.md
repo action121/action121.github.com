@@ -260,7 +260,7 @@ tags: website Lighthouse speed-up
 #### 不清缓存
 
 
-![home1](assets/home1-1.png)
+![home1](../../../assets/img/17534047485062/home1-1.png)
 
 
 
@@ -276,7 +276,7 @@ tags: website Lighthouse speed-up
 #### 不清缓存
 
 
-![home1](assets/home1-3.png)
+![home1](../../../assets/img/17534047485062/home1-3.png)
 
 
 ### 对比
