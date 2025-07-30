@@ -24,7 +24,9 @@ tags: website Lighthouse speed-up
 
 ## 优化措施
 
-### 1. 布局结构优化 (`src/App.vue`)
+### 1. 布局结构优化
+
+ `src/App.vue`
 
 - 移除全局Footer组件
 - 保留Header的固定高度约束
@@ -93,26 +95,34 @@ tags: website Lighthouse speed-up
 
 ```
 
-#### 2. 页面布局组件 (`src/components/PageLayout.vue`)
+#### 2. 页面布局组件
+
+`src/components/PageLayout.vue`
 
 - 创建统一的页面布局组件
 - 使用slot插槽管理页面内容
 - 在页面内容下方自动添加Footer
 - 确保页面内容有足够的最小高度
 
-#### 3. Header组件优化 (`src/components/Header.vue`)
+#### 3. Header组件优化
+
+`src/components/Header.vue`
 
 - 保持明确的高度约束：`min-height: 97px`
 - 设置背景色和定位：`background: #fff; position: sticky`
 - 响应式高度调整
 
-#### 4. Footer组件优化 (`src/components/Footer.vue`)
+#### 4. Footer组件优化
+
+`src/components/Footer.vue`
 
 - 移除固定高度约束，作为页面内容的一部分
 - 保持背景色和样式：`background: #000; width: 100%`
 - 内容区域保持最小高度：`min-height: 200px`
 
-#### 5. 布局稳定性CSS (`src/assets/css/layout-stability.css`)
+#### 5. 布局稳定性CSS
+
+`src/assets/css/layout-stability.css`
 
 - 全局容器稳定性设置
 - 图片和媒体元素稳定性优化
@@ -121,7 +131,9 @@ tags: website Lighthouse speed-up
 - 硬件加速启用
 - 新增页面布局组件样式
 
-#### 6. JavaScript优化工具 (`src/utils/layout-stability.js`)
+#### 6. JavaScript优化工具
+
+`src/utils/layout-stability.js`
 
 - 关键元素尺寸设置（仅Header）
 - 图片加载优化
@@ -130,7 +142,9 @@ tags: website Lighthouse speed-up
 - 字体加载优化
 - 响应式布局优化
 
-#### 7. HTML模板优化 (`index.html`)
+#### 7. HTML模板优化
+
+`index.html`
 
 - 关键资源预加载
 - 关键字体预加载
