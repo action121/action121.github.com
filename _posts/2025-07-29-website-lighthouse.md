@@ -3,9 +3,9 @@ layout: post
 title: '网站加速-3-Lighthouse-CLS'
 subtitle: ''
 date: 2025-07-29
-categories: website
+categories: website Lighthouse
 cover: ''
-tags: website Lighthouse speed-up
+tags: website Lighthouse CLS speed-up 
 ---
 
 
@@ -95,7 +95,7 @@ tags: website Lighthouse speed-up
 
 ```
 
-#### 2. 页面布局组件
+### 2. 页面布局组件
 
 `src/components/PageLayout.vue`
 
@@ -104,7 +104,7 @@ tags: website Lighthouse speed-up
 - 在页面内容下方自动添加Footer
 - 确保页面内容有足够的最小高度
 
-#### 3. Header组件优化
+### 3. Header组件优化
 
 `src/components/Header.vue`
 
@@ -112,7 +112,7 @@ tags: website Lighthouse speed-up
 - 设置背景色和定位：`background: #fff; position: sticky`
 - 响应式高度调整
 
-#### 4. Footer组件优化
+### 4. Footer组件优化
 
 `src/components/Footer.vue`
 
@@ -120,7 +120,7 @@ tags: website Lighthouse speed-up
 - 保持背景色和样式：`background: #000; width: 100%`
 - 内容区域保持最小高度：`min-height: 200px`
 
-#### 5. 布局稳定性CSS
+### 5. 布局稳定性CSS
 
 `src/assets/css/layout-stability.css`
 
@@ -131,7 +131,7 @@ tags: website Lighthouse speed-up
 - 硬件加速启用
 - 新增页面布局组件样式
 
-#### 6. JavaScript优化工具
+### 6. JavaScript优化工具
 
 `src/utils/layout-stability.js`
 
@@ -142,7 +142,7 @@ tags: website Lighthouse speed-up
 - 字体加载优化
 - 响应式布局优化
 
-#### 7. HTML模板优化
+### 7. HTML模板优化
 
 `index.html`
 
@@ -293,7 +293,7 @@ tags: website Lighthouse speed-up
 ![home1](../../../assets/img/17534047485062/home1-3.png)
 
 
-### 对比
+## 对比
 
 
 ![](../../../assets/img/17534047485062/17537811300885.jpg)
