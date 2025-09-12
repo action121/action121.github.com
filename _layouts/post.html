@@ -40,16 +40,14 @@
     <h2 class="post-subtitle">{{ page.subtitle }}</h2>
     {% endif %}
 
-    {% if site.toc %}
+    {% if site.toc or page.toc==nil or page.toc != false %}
       <div class="container">  
         <div class="contents">
           <article class="markdown-body">
             {{ page.content }}
           </article>
         </div>   
-        <div class="table-of-contents">
-          {% include toc.html html=content %}
-        </div>
+        <div class="table-of-contents">{% include toc.html html=content %}</div>
       </div>
     {% else %}
       <article class="markdown-body">
