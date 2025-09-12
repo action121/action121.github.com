@@ -9,4 +9,4 @@ tags: website AEM adobe
 ---
 
 
-<iframe src="https://app.xmind.com/embed/FffEf0Rg?sheet-id=3d11f509-ea82-4b07-80ca-272b081bd57c" width="100%" height="100%" style="position: fixed;" frameborder="0" scrolling="no" allow="fullscreen"></iframe>
+<iframe src="https://app.xmind.com/embed/FffEf0Rg?sheet-id=3d11f509-ea82-4b07-80ca-272b081bd57c" style="min-height: 800px;width: 100%" frameborder="0" scrolling="no" allow="fullscreen"></iframe>
