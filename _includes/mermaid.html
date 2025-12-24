@@ -1,0 +1,25 @@
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  $(document).ready(function () {
+    mermaid.initialize({
+      startOnLoad:true,
+      theme: "default",
+    });
+    // 移除语法高亮的包裹，提取纯 mermaid 代码
+    const mermaidBlocks = document.querySelectorAll('code.language-mermaid');
+    
+    mermaidBlocks.forEach(function(codeElement) {
+      const mermaidCode = codeElement.textContent;
+      const mermaidDiv = document.createElement('div');
+      mermaidDiv.className = 'mermaid';
+      mermaidDiv. textContent = mermaidCode;
+      
+      // 找到 <pre> 标签并替换
+      const preElement = codeElement.closest('pre');
+      if (preElement) {
+        preElement. replaceWith(mermaidDiv);
+      }
+    });
+    window.mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+  });
+</script>

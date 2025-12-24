@@ -652,6 +652,9 @@ li p:nth-child(2) {
     width: 90%;
     max-width: 2000px;
     padding: 30px;
+    flex: 1;
+    min-width: 0; /* 重要：允许 flex 收缩 */
+
 }
 .post-content .container .table-of-contents {
     top: 60px;
