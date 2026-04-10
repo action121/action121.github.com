@@ -1,0 +1,20 @@
+wing: record
+rooms:
+- name: screenshot
+  description: Files from screenshot/
+  keywords:
+  - screenshot
+  - screenshot
+- name: dev
+  description: Files from dev/
+  keywords:
+  - dev
+  - dev
+- name: design
+  description: Files from assets/
+  keywords:
+  - design
+  - assets
+- name: general
+  description: Files that don't fit other rooms
+  keywords: []

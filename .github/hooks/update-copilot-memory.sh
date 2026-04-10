@@ -31,6 +31,10 @@ if ! command -v mempalace &>/dev/null && ! python -m mempalace --version &>/dev/
   exit 0
 fi
 
+# 先扫描 _posts 目录，将新文章入库（新文章总是在此目录更新）
+echo "[update-copilot-memory] 正在扫描 _posts 目录入库（mempalace mine）..."
+mempalace mine "${REPO_ROOT}/_posts" 2>/dev/null || true
+
 # 获取 wake-up 快照
 echo "[update-copilot-memory] 正在生成 mempalace wake-up 快照..."
 WAKEUP_OUTPUT="$(python -m mempalace wake-up 2>/dev/null || mempalace wake-up 2>/dev/null || echo '')"
@@ -42,27 +46,28 @@ fi
 
 # 将快照用 HTML 注释包裹，注入到 instructions 文件的标记区间
 TIMESTAMP="$(date '+%Y-%m-%d %H:%M:%S')"
-# 将新块写入临时文件，避免 awk -v 传递多行字符串时的转义问题
+# 用 printf '%s\n' 逐行写入临时文件，完全避免 heredoc 对反引号、$() 等的意外解释
 NEW_BLOCK_FILE="$(mktemp)"
-cat > "${NEW_BLOCK_FILE}" <<EOF
-${START_MARKER}
-<!-- 最后更新：${TIMESTAMP} -->
-\`\`\`
-${WAKEUP_OUTPUT}
-\`\`\`
-${END_MARKER}
-EOF
+printf '%s\n' "${START_MARKER}"                  > "${NEW_BLOCK_FILE}"
+printf '%s\n' "<!-- 最后更新：${TIMESTAMP} -->" >> "${NEW_BLOCK_FILE}"
+printf '%s\n' '```'                              >> "${NEW_BLOCK_FILE}"
+printf '%s\n' "${WAKEUP_OUTPUT}"                 >> "${NEW_BLOCK_FILE}"
+printf '%s\n' '```'                              >> "${NEW_BLOCK_FILE}"
+printf '%s\n' "${END_MARKER}"                    >> "${NEW_BLOCK_FILE}"
 
-# 使用 awk 替换两个标记之间的内容（通过文件读取新块，避免 -v 多行转义问题）
-awk -v block_file="${NEW_BLOCK_FILE}" '
-  /<!-- MEMPALACE_WAKEUP_START -->/ {
-    while ((getline line < block_file) > 0) print line
-    close(block_file)
-    skip=1; next
-  }
-  /<!-- MEMPALACE_WAKEUP_END -->/ { skip=0; next }
-  skip == 0 { print }
-' "${INSTRUCTIONS_FILE}" > "${INSTRUCTIONS_FILE}.tmp"
+# 找到 START 标记的行号，保留其前的所有行，追加新块
+# 不依赖 END 标记匹配，避免 END 之后的垃圾内容被保留
+START_LINE=$(grep -n "${START_MARKER}" "${INSTRUCTIONS_FILE}" | head -1 | cut -d: -f1)
+
+if [ -z "${START_LINE}" ]; then
+  echo "[update-copilot-memory] ⚠️  未找到 START 标记（<!-- MEMPALACE_WAKEUP_START -->），请检查 ${INSTRUCTIONS_FILE}。"
+  rm -f "${NEW_BLOCK_FILE}"
+  exit 1
+fi
+
+# 截取 START 前的内容 + 新块，旧的 START/内容/END 及之后的任何内容全部丢弃
+head -$((START_LINE - 1)) "${INSTRUCTIONS_FILE}" > "${INSTRUCTIONS_FILE}.tmp"
+cat "${NEW_BLOCK_FILE}"                          >> "${INSTRUCTIONS_FILE}.tmp"
 
 mv "${INSTRUCTIONS_FILE}.tmp" "${INSTRUCTIONS_FILE}"
 rm -f "${NEW_BLOCK_FILE}"

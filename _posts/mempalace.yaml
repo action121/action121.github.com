@@ -1,0 +1,5 @@
+wing: _posts
+rooms:
+- name: general
+  description: All project files
+  keywords: []

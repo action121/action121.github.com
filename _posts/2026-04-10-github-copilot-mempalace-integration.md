@@ -137,39 +137,36 @@ mempalace init ~/projects/action121.github.com
 
 ```bash
 #!/usr/bin/env bash
+# 先扫描 _posts 目录，将新文章入库（新文章总是在此目录更新）
+mempalace mine "${REPO_ROOT}/_posts"
+
 # 获取 wake-up 快照（L0+L1，约 170 token）
 WAKEUP_OUTPUT="$(mempalace wake-up)"
 
-# 将新块写入临时文件，避免 awk -v 传递多行字符串时的转义问题
+# 用 printf 逐行写入临时文件，避免 heredoc 对反引号的意外展开
 NEW_BLOCK_FILE="$(mktemp)"
-cat > "${NEW_BLOCK_FILE}" <<EOF
-${START_MARKER}
-<!-- 最后更新：${TIMESTAMP} -->
-\`\`\`
-${WAKEUP_OUTPUT}
-\`\`\`
-${END_MARKER}
-EOF
+printf '%s\n' "${START_MARKER}"                  > "${NEW_BLOCK_FILE}"
+printf '%s\n' "<!-- 最后更新：${TIMESTAMP} -->" >> "${NEW_BLOCK_FILE}"
+printf '%s\n' '```'                              >> "${NEW_BLOCK_FILE}"
+printf '%s\n' "${WAKEUP_OUTPUT}"                 >> "${NEW_BLOCK_FILE}"
+printf '%s\n' '```'                              >> "${NEW_BLOCK_FILE}"
+printf '%s\n' "${END_MARKER}"                    >> "${NEW_BLOCK_FILE}"
 
-# 通过文件读取新块，用 skip == 0 代替 !skip 避免 zsh 历史展开问题
-awk -v block_file="${NEW_BLOCK_FILE}" '
-  /<!-- MEMPALACE_WAKEUP_START -->/ {
-    while ((getline line < block_file) > 0) print line
-    close(block_file)
-    skip=1; next
-  }
-  /<!-- MEMPALACE_WAKEUP_END -->/ { skip=0; next }
-  skip == 0 { print }
-' "${INSTRUCTIONS_FILE}" > "${INSTRUCTIONS_FILE}.tmp"
+# 找到 START 标记行号，截取其前的内容，追加新块
+# 不依赖 END 标记匹配——START 之后的所有旧内容（含任何垃圾）一律丢弃
+START_LINE=$(grep -n "${START_MARKER}" "${INSTRUCTIONS_FILE}" | head -1 | cut -d: -f1)
+head -$((START_LINE - 1)) "${INSTRUCTIONS_FILE}" > "${INSTRUCTIONS_FILE}.tmp"
+cat "${NEW_BLOCK_FILE}"                          >> "${INSTRUCTIONS_FILE}.tmp"
 
 mv "${INSTRUCTIONS_FILE}.tmp" "${INSTRUCTIONS_FILE}"
 rm -f "${NEW_BLOCK_FILE}"
 ```
 
-脚本有两处需要注意的坑：
+脚本踩过的三个坑：
 
-1. **`awk -v` 多行字符串问题**：将新内容写入临时文件再通过 `getline` 读取，而不是用 `-v` 变量传递，可避免 awk 对换行符、反引号、`&` 等特殊字符的转义错误。
-2. **zsh 历史展开问题**：awk 程序中的 `!skip` 在 zsh 环境下会触发历史展开导致执行失败，改为 `skip == 0` 可彻底规避。
+1. **`heredoc` 反引号展开**：`<<EOF`（不加引号）中 `${WAKEUP_OUTPUT}` 含有反引号（如 ` ```jekyll server``` `）会被 bash 当作命令执行，导致写入截断。改用 `printf '%s\n'` 逐行写入，彻底避免 shell 解释内容。
+2. **zsh 历史展开**：awk 程序中 `!skip` 的 `!` 在 zsh 下触发历史展开导致执行失败，改为 `skip == 0` 可规避（虽最终方案已不再用 awk）。
+3. **END 标记后垃圾累积**：用 awk 双标记匹配时，只要 END 之后有任何内容（如历史上误用 `>>` 追加），每次运行都会将其保留并越积越多。改为 `head` 截断法后，START 之后的全部内容（含 END 及末尾垃圾）在每次运行时都被无条件丢弃，从根本上解决了重复堆积问题。
 
 **推荐触发时机**：
 
@@ -285,9 +282,11 @@ mempalace mine ~/chats/ --mode convos
 
 ### 7.3 copilot-instructions.md 体积膨胀
 
-**现象**：随着时间推移，指令文件越来越大，Copilot 响应变慢。
+**现象**：每次运行脚本后文件行数持续增长，Copilot 响应变慢。
 
-**解决**：`update-copilot-memory.sh` 脚本采用**替换而非追加**的方式更新快照区块，始终保持 L0+L1 约 170 token 的轻量体积。
+**根因**：历史上曾用 `>>` 手动追加 wake-up 内容，导致 `<!-- MEMPALACE_WAKEUP_END -->` 之后存在裸文本。脚本如果用 awk 双标记匹配，END 之后的内容会被原样保留到输出，下次运行再次追加，形成恶性循环。
+
+**解决**：脚本改用 `head` 截断法——找到 START 标记的行号，只保留其前的内容，然后追加新块。START 之后的所有旧内容（包括 END 标记和末尾任何垃圾）一律丢弃，每次运行都确保文件大小稳定。
 
 ---
 
