@@ -42,20 +42,29 @@ fi
 
 # 将快照用 HTML 注释包裹，注入到 instructions 文件的标记区间
 TIMESTAMP="$(date '+%Y-%m-%d %H:%M:%S')"
-NEW_BLOCK="${START_MARKER}
+# 将新块写入临时文件，避免 awk -v 传递多行字符串时的转义问题
+NEW_BLOCK_FILE="$(mktemp)"
+cat > "${NEW_BLOCK_FILE}" <<EOF
+${START_MARKER}
 <!-- 最后更新：${TIMESTAMP} -->
 \`\`\`
 ${WAKEUP_OUTPUT}
 \`\`\`
-${END_MARKER}"
+${END_MARKER}
+EOF
 
-# 使用 awk 替换两个标记之间的内容
-awk -v new_block="${NEW_BLOCK}" '
-  /<!-- MEMPALACE_WAKEUP_START -->/ { print new_block; skip=1; next }
+# 使用 awk 替换两个标记之间的内容（通过文件读取新块，避免 -v 多行转义问题）
+awk -v block_file="${NEW_BLOCK_FILE}" '
+  /<!-- MEMPALACE_WAKEUP_START -->/ {
+    while ((getline line < block_file) > 0) print line
+    close(block_file)
+    skip=1; next
+  }
   /<!-- MEMPALACE_WAKEUP_END -->/ { skip=0; next }
-  !skip { print }
+  skip == 0 { print }
 ' "${INSTRUCTIONS_FILE}" > "${INSTRUCTIONS_FILE}.tmp"
 
 mv "${INSTRUCTIONS_FILE}.tmp" "${INSTRUCTIONS_FILE}"
+rm -f "${NEW_BLOCK_FILE}"
 
 echo "[update-copilot-memory] ✅ 已更新 .github/copilot-instructions.md 的 MemPalace 快照区块。"

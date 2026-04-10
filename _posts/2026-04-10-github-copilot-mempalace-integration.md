@@ -85,7 +85,7 @@ GitHub Copilot（以及所有基于大模型的对话 AI）天然没有跨会话
 {
   "servers": {
     "mempalace": {
-      "command": "python",
+      "command": "/opt/homebrew/opt/python@3.11/bin/python3.11",
       "args": ["-m", "mempalace.mcp_server"],
       "env": {}
     }
@@ -94,6 +94,8 @@ GitHub Copilot（以及所有基于大模型的对话 AI）天然没有跨会话
 ```
 
 VS Code Copilot Agent 启动后会自动连接该 MCP 服务器，使 Copilot 能够调用 `mempalace_search`、`mempalace_add_drawer` 等 19 个工具。
+
+> **注意**：`command` 必须指向安装了 `mempalace` 的具体 Python 可执行文件的完整路径，而不是 `python` 或 `python3` 别名。macOS 上 `python` 默认指向系统自带的 Python 2.7，`python3` 可能指向未安装 `mempalace` 的版本。
 
 **前置条件**：
 
@@ -136,17 +138,38 @@ mempalace init ~/projects/action121.github.com
 ```bash
 #!/usr/bin/env bash
 # 获取 wake-up 快照（L0+L1，约 170 token）
-WAKEUP_OUTPUT="$(python -m mempalace wake-up)"
+WAKEUP_OUTPUT="$(mempalace wake-up)"
 
-# 用 awk 替换标记区间内容
-awk -v new_block="${NEW_BLOCK}" '
-  /<!-- MEMPALACE_WAKEUP_START -->/ { print new_block; skip=1; next }
+# 将新块写入临时文件，避免 awk -v 传递多行字符串时的转义问题
+NEW_BLOCK_FILE="$(mktemp)"
+cat > "${NEW_BLOCK_FILE}" <<EOF
+${START_MARKER}
+<!-- 最后更新：${TIMESTAMP} -->
+\`\`\`
+${WAKEUP_OUTPUT}
+\`\`\`
+${END_MARKER}
+EOF
+
+# 通过文件读取新块，用 skip == 0 代替 !skip 避免 zsh 历史展开问题
+awk -v block_file="${NEW_BLOCK_FILE}" '
+  /<!-- MEMPALACE_WAKEUP_START -->/ {
+    while ((getline line < block_file) > 0) print line
+    close(block_file)
+    skip=1; next
+  }
   /<!-- MEMPALACE_WAKEUP_END -->/ { skip=0; next }
-  !skip { print }
+  skip == 0 { print }
 ' "${INSTRUCTIONS_FILE}" > "${INSTRUCTIONS_FILE}.tmp"
 
 mv "${INSTRUCTIONS_FILE}.tmp" "${INSTRUCTIONS_FILE}"
+rm -f "${NEW_BLOCK_FILE}"
 ```
+
+脚本有两处需要注意的坑：
+
+1. **`awk -v` 多行字符串问题**：将新内容写入临时文件再通过 `getline` 读取，而不是用 `-v` 变量传递，可避免 awk 对换行符、反引号、`&` 等特殊字符的转义错误。
+2. **zsh 历史展开问题**：awk 程序中的 `!skip` 在 zsh 环境下会触发历史展开导致执行失败，改为 `skip == 0` 可彻底规避。
 
 **推荐触发时机**：
 
@@ -222,13 +245,22 @@ MemPalace 的设计在"信息完整性"和"Token 成本"之间取得平衡：
 3. 在终端手动运行 `python -m mempalace.mcp_server` 检查报错信息
 4. 确认 `.vscode/mcp.json` 中 `python` 命令对应的是安装了 `mempalace` 的 Python 环境
 
-**解决**：如果使用 `conda` 或 `pyenv`，需在 `mcp.json` 中写完整路径：
+**解决**：在 `mcp.json` 中写安装了 `mempalace` 的 Python 解释器的完整路径。可通过以下方式确认：
+
+```bash
+# 找到 mempalace 安装在哪个 Python 下
+pip show mempalace | grep Location
+# 输出示例：Location: /opt/homebrew/lib/python3.11/site-packages
+
+# 对应的解释器路径
+/opt/homebrew/opt/python@3.11/bin/python3.11 -c "import mempalace; print('ok')"
+```
 
 ```json
 {
   "servers": {
     "mempalace": {
-      "command": "/Users/yourname/.pyenv/shims/python",
+      "command": "/opt/homebrew/opt/python@3.11/bin/python3.11",
       "args": ["-m", "mempalace.mcp_server"]
     }
   }
@@ -245,7 +277,7 @@ MemPalace 的设计在"信息完整性"和"Token 成本"之间取得平衡：
 
 ```bash
 # 导入项目文件
-mempalace mine ~/projects/action121.github.com
+mempalace mine YOUR-PROJECT-PATH
 
 # 导入对话记录
 mempalace mine ~/chats/ --mode convos

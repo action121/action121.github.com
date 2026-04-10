@@ -18,7 +18,7 @@
 - 前端基础（HTML、CSS、JavaScript）
 - DevOps（GitHub Actions、CI/CD、GitLab）
 
-**博客内容方向**：移动端技术、工具效率、架构设计、操作系统适配、AI 工具使用
+**博客内容方向**：移动端技术、后端技术、前端技术、工具效率、架构设计、AI 工具使用
 
 ---
 
@@ -100,9 +100,34 @@
 <!-- 以下内容由 .github/hooks/update-copilot-memory.sh 定期自动更新 -->
 <!-- 手动更新命令：mempalace wake-up >> .github/copilot-instructions.md -->
 <!-- MEMPALACE_WAKEUP_START -->
-<!-- 暂未初始化 MemPalace。运行以下命令完成初始化：
-     pip install mempalace
-     mempalace init ~/projects/action121.github.com
-     mempalace mine ~/projects/action121.github.com
-     然后运行 .github/hooks/update-copilot-memory.sh 更新此区块。 -->
+<!-- 最后更新：2026-04-10 16:34:27 -->
+```
+Wake-up text (~804 tokens):
+==================================================
+## L0 — IDENTITY
+No identity configured. Create ~/.mempalace/identity.txt
+
+## L1 — ESSENTIAL STORY
+
+[design]
+  - --- layout: default home-title: 一江春水 nick: action121 description: 南京 header-img: '/assets/img/hero.jpg' ---  {% include header.html %}  <div     class="g-banner home-banner {{ site.theme-color | pr...  (index.html)
+  - : cover;{% endif %}" >     <h2>{{ page.home-title }}</h2>     <h3>{{ page.description }}</h3> </div>  <main class="g-container home-content">     <div class="article-list">         {% for post in p...  (index.html)
+  - <a class="post-link" href="{{ post.url | prepend: site.baseurl }}" title="{{ post.title }}"></a>                     <h2 class="post-title">{{ post.title }}</h2>                     {% if post.subt...  (index.html)
+  - {% if post.tags.size > 0 %}                             {% for tag in post.tags  %}                             <a href={{ "tags.html#" | append: tag | pretend: site.baseurl}} class="post-tag">{{ t...  (index.html)
+  - paginator.total_pages > 1 %}             {% include pageNav.html %}         {% endif %}      </div>      <aside class="g-sidebar-wrapper">         <div class="g-sidebar">             <section class...  (index.html)
+  - n site.sns %}                     <li>                         <a href="{{ s[1] }}" target="_blank">                             <i class="iconfont icon-{{ s[0] }}"></i>                         </a...  (index.html)
+  - nd: site.baseurl }}" class="tag">{{ tag[0]}}</a>                 {% endfor %}             </section>             {% endif %}         </div>          {% if site.search %}         <div class="search-...  (index.html)
+
+[general]
+  - --- title: Tags layout: default ---  {% include header.html %}  <div class="g-banner tags-banner {{ site.postPatterns | prepend: 'post-pattern-' }} {{ site.theme-color | prepend: 'bgcolor-' }}" dat...  (tags.html)
+  - <span class="tag-name" id="{{ tag[0] }}">「{{ tag[0] }}」</span>             {% for post in tag[1] %}             <a class="tag-post" href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</...  (tags.html)
+  - --- layout: null ---  [   {% for post in site.posts %}     {       "title"    : "{{ post.title | escape }}",       "tags"     : "{% for tag in post.tags %}{% if forloop.rindex != 1 %}{{ tag }} {% e...  (search.json)
+  - --- layout: default description: "Sorry, Page Not Found :(" ---  {% include header.html %}  <header class="g-banner np-banner {{ site.postPatterns | prepend: 'post-pattern-' }}" data-theme="{{ site...  (404.html)
+
+[screenshot]
+  - ## jekyll-theme-H2O  基于Jekyll的博客主题模板，简洁轻量。  另外，还有此主题的[Ghost版本](https://github.com/eastpiger/ghost-theme-H2O) by [eastpiger](https://github.com/eastpiger)  ### Preview  #### [在线预览 Live Demo →](http:...  (README.md)
+  - - Disqus评论系统 - 粉蓝两种主题色 - 头图个性化底纹 - 响应式设计 - 社交图标 - SEO标题优化 - 文章标签索引 - 博客文章搜索 - 复制文章内容自动添加版权  #### EN  - Code highlight - Night mode - Disqus Comment System - Theme color: Blue & Pink - Hero Patterns...  (README.md)
+  - https://github.com/kaeyleo/jekyll-theme-H2O.git ```  最后，在命令行输入 ```jekyll server``` 开启服务，就能在本地预览主题了。  如果需要部署到线上环境，请参照配置文档的 **开始** 章节进行操作。  ### Document 配置文档  #### CN  - 开始 	- [站点信息](#站点信息) 	- [写一篇文章...  (README.md)
+  ... (more in L3 search)
+```
 <!-- MEMPALACE_WAKEUP_END -->
